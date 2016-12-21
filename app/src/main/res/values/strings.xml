@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Butim</string>
+    <string name="send_otp">Send OTP</string>
+    <string name="resend_otp_formatted">Resend OTP (%1$d)</string>
+    <string name="resend_otp">Resend OTP</string>
+    <string name="stop">Stop</string>
+</resources>
