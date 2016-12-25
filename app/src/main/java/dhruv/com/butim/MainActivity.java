@@ -29,10 +29,10 @@ public class MainActivity extends AppCompatActivity {
 		setContentView(R.layout.activity_main);
 
 
-		mButton = (Button) findViewById(R.id.my_button);
-		mOverButton = (Button) findViewById(R.id.text_view);
+		mButton = (Button) findViewById(R.id.timer_base_button);
+		mOverButton = (Button) findViewById(R.id.text_button);
 		Button endAnimButton = (Button) findViewById(R.id.end_anim_button);
-		mOverView = findViewById(R.id.overview);
+		mOverView = findViewById(R.id.over_view);
 
 		mButton.post(new Runnable() {
 			@Override
