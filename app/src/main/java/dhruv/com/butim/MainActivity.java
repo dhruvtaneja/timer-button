@@ -9,11 +9,12 @@ import android.view.animation.LinearInterpolator;
 import android.view.animation.ScaleAnimation;
 import android.widget.Button;
 
+import java.util.concurrent.TimeUnit;
+
 public class MainActivity extends AppCompatActivity {
 
 	private static final long MILLIS_IN_FUTURE = 10000L;
 	private static final long COUNT_DOWN_INTERVAL = 1000L;
-	private static final int MILLIS = 1000;
 
 	private Button mOverButton;
 	private Button mButton;
@@ -38,8 +39,6 @@ public class MainActivity extends AppCompatActivity {
 		mButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				mOverView.setVisibility(View.VISIBLE);
-				mOverButton.setVisibility(View.VISIBLE);
 				mOverView.startAnimation(mScaleAnimation);
 				startTimer();
 			}
@@ -50,8 +49,10 @@ public class MainActivity extends AppCompatActivity {
 			public void onClick(View v) {
 				if (!mScaleAnimation.hasEnded()) {
 					mOverView.clearAnimation();
-					mTimer.onFinish();
-					mTimer.cancel();
+                    if (mTimer != null) {
+                        mTimer.onFinish();
+                        mTimer.cancel();
+                    }
 				}
 			}
 		});
@@ -60,12 +61,14 @@ public class MainActivity extends AppCompatActivity {
 			@Override
 			public void onAnimationStart(Animation animation) {
 				mOverView.setVisibility(View.VISIBLE);
+                mOverButton.setVisibility(View.VISIBLE);
 				mButton.setEnabled(false);
 			}
 
 			@Override
 			public void onAnimationEnd(Animation animation) {
 				mOverView.setVisibility(View.GONE);
+                mOverButton.setVisibility(View.GONE);
 				mButton.setEnabled(true);
 			}
 
@@ -80,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
 		mTimer = new CountDownTimer(MILLIS_IN_FUTURE, COUNT_DOWN_INTERVAL) {
 			@Override
 			public void onTick(long millisUntilFinished) {
-				int left = (int) (millisUntilFinished / MILLIS);
+				int left = (int) (millisUntilFinished / TimeUnit.SECONDS.toMillis(1));
 				String formattedString = String.format(
 						getString(R.string.resend_otp_formatted), left);
 				mOverButton.setText(formattedString);
@@ -89,7 +92,6 @@ public class MainActivity extends AppCompatActivity {
 
 			@Override
 			public void onFinish() {
-				mOverButton.setVisibility(View.GONE);
 				mButton.setText(R.string.resend_otp);
 			}
 		};
