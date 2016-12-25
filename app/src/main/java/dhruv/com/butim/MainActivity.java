@@ -4,12 +4,10 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.LinearInterpolator;
 import android.view.animation.ScaleAnimation;
 import android.widget.Button;
-import android.widget.FrameLayout;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -33,17 +31,6 @@ public class MainActivity extends AppCompatActivity {
 		mOverButton = (Button) findViewById(R.id.text_button);
 		Button endAnimButton = (Button) findViewById(R.id.end_anim_button);
 		mOverView = findViewById(R.id.over_view);
-
-		mButton.post(new Runnable() {
-			@Override
-			public void run() {
-
-				final ViewGroup.LayoutParams layoutParams = new FrameLayout.LayoutParams(
-						mButton.getWidth(), mButton.getHeight()
-				);
-				mOverView.setLayoutParams(layoutParams);
-			}
-		});
 
 		mScaleAnimation = new ScaleAnimation(0.0f, 1.0f, 1.0f, 1.0f);
 		mScaleAnimation.setInterpolator(new LinearInterpolator());
