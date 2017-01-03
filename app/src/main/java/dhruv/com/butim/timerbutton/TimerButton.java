@@ -3,7 +3,6 @@ package dhruv.com.butim.timerbutton;
 
 import android.content.Context;
 import android.os.CountDownTimer;
-import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.animation.Animation;
@@ -30,6 +29,7 @@ public class TimerButton extends RelativeLayout implements Animation.AnimationLi
     private int mDynamicStringId = 0;
     private String mOnAnimationCompleteText = "";
     private String mBeforeAnimtionText = "";
+    private boolean mIsReset;
 
     public TimerButton(Context context) {
         super(context);
@@ -128,15 +128,8 @@ public class TimerButton extends RelativeLayout implements Animation.AnimationLi
     }
 
     public void reset() {
-        if (!TextUtils.isEmpty(mBeforeAnimtionText)) {
-            mBaseButton.setText(mBeforeAnimtionText);
-            mTransparentButton.setText(mBeforeAnimtionText);
-        }
-        mBaseButton.setEnabled(true);
-        mOverView.setVisibility(GONE);
-        mTransparentButton.setVisibility(GONE);
-        mOverView.clearAnimation();
-        mTimer.cancel();
+        end();
+        mIsReset = true;
     }
 
     public void end() {
@@ -159,11 +152,12 @@ public class TimerButton extends RelativeLayout implements Animation.AnimationLi
         mOverView.setVisibility(View.GONE);
         mTransparentButton.setVisibility(GONE);
         mBaseButton.setEnabled(true);
-        if (!TextUtils.isEmpty(mOnAnimationCompleteText)) {
-            mBaseButton.setText(mOnAnimationCompleteText);
-        } else {
+        if (mIsReset) {
             mBaseButton.setText(mBeforeAnimtionText);
+        } else {
+            mBaseButton.setText(mOnAnimationCompleteText);
         }
+        mIsReset = false;
     }
 
     @Override
@@ -193,9 +187,7 @@ public class TimerButton extends RelativeLayout implements Animation.AnimationLi
                 formattedString += left;
             }
             mBaseButton.setText(formattedString);
-            mBaseButton.requestLayout();
             mTransparentButton.setText(formattedString);
-            mTransparentButton.requestLayout();
         }
 
         @Override
