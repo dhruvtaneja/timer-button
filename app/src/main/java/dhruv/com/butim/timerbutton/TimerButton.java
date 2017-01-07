@@ -3,6 +3,8 @@ package dhruv.com.butim.timerbutton;
 
 import android.content.Context;
 import android.os.CountDownTimer;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.animation.Animation;
@@ -26,10 +28,13 @@ public class TimerButton extends RelativeLayout implements Animation.AnimationLi
     private ButtonCountDownTimer mTimer;
 
     private long mDuration = 10000L;
+    private long mDurationLeft;
     private int mDynamicStringId = 0;
     private String mOnAnimationCompleteText = "";
-    private String mBeforeAnimtionText = "";
+    private String mBeforeAnimationText = "";
     private boolean mIsReset;
+    private int mCurrentWidth;
+    private int mMaxWidth;
 
     public TimerButton(Context context) {
         super(context);
@@ -80,12 +85,11 @@ public class TimerButton extends RelativeLayout implements Animation.AnimationLi
         mOverView = findViewById(R.id.over_view);
         mTransparentButton = (Button) findViewById(R.id.text_button);
 
-        mScaleAnimation = new ScaleAnimation(0.0f, 1.0f, 1.0f, 1.0f);
+        float fromX = mMaxWidth == 0 ? 0.0f : mCurrentWidth / mMaxWidth;
+        mScaleAnimation = new ScaleAnimation(fromX, 1.0f, 1.0f, 1.0f);
         mScaleAnimation.setInterpolator(new LinearInterpolator());
         mScaleAnimation.setDuration(mDuration);
         mScaleAnimation.setAnimationListener(this);
-
-        mTimer = new ButtonCountDownTimer(mDuration, INTERVAL);
 
         mBaseButton.setOnClickListener(this);
     }
@@ -93,16 +97,17 @@ public class TimerButton extends RelativeLayout implements Animation.AnimationLi
     public void setDuration(long duration) {
         mDuration = duration;
         mScaleAnimation.setDuration(mDuration);
+        mDurationLeft = mDuration;
     }
 
     public void setStaticText(String beforeAnimationText) {
         if (beforeAnimationText != null) {
-            if (mBeforeAnimtionText.equals(beforeAnimationText)) {
+            if (mBeforeAnimationText.equals(beforeAnimationText)) {
                 return;
             }
-            mBeforeAnimtionText = beforeAnimationText;
-            mBaseButton.setText(mBeforeAnimtionText);
-            mTransparentButton.setText(mBeforeAnimtionText);
+            mBeforeAnimationText = beforeAnimationText;
+            mBaseButton.setText(mBeforeAnimationText);
+            mTransparentButton.setText(mBeforeAnimationText);
         }
     }
 
@@ -123,8 +128,16 @@ public class TimerButton extends RelativeLayout implements Animation.AnimationLi
     }
 
     public void startAnimation() {
+        setupTimer();
         mOverView.startAnimation(mScaleAnimation);
         mTimer.start();
+    }
+
+    private void setupTimer() {
+        if (mTimer == null) {
+            mTimer = new ButtonCountDownTimer(mDurationLeft == 0 ? mDuration : mDurationLeft,
+                    INTERVAL);
+        }
     }
 
     public void reset() {
@@ -137,6 +150,7 @@ public class TimerButton extends RelativeLayout implements Animation.AnimationLi
             mOverView.clearAnimation();
             mTimer.onFinish();
             mTimer.cancel();
+            mDurationLeft = 0L;
         }
     }
 
@@ -153,11 +167,12 @@ public class TimerButton extends RelativeLayout implements Animation.AnimationLi
         mTransparentButton.setVisibility(GONE);
         mBaseButton.setEnabled(true);
         if (mIsReset) {
-            mBaseButton.setText(mBeforeAnimtionText);
+            mBaseButton.setText(mBeforeAnimationText);
         } else {
             mBaseButton.setText(mOnAnimationCompleteText);
         }
         mIsReset = false;
+        mDurationLeft = 0L;
     }
 
     @Override
@@ -179,6 +194,7 @@ public class TimerButton extends RelativeLayout implements Animation.AnimationLi
         @Override
         public void onTick(long millisUntilFinished) {
             int left = (int) (millisUntilFinished / TimeUnit.SECONDS.toMillis(1)) + 1;
+            mDurationLeft = left * 1000L;
             String formattedString = "";
             if (mDynamicStringId != 0) {
                 formattedString = String.format(
@@ -193,6 +209,66 @@ public class TimerButton extends RelativeLayout implements Animation.AnimationLi
         @Override
         public void onFinish() {
 
+        }
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Parcelable state) {
+
+        if (!(state instanceof SavedState)) {
+            super.onRestoreInstanceState(state);
+            return;
+        }
+
+        SavedState savedState = (SavedState) state;
+        super.onRestoreInstanceState(savedState.getSuperState());
+        mMaxWidth = savedState.maxWidth;
+        mDurationLeft = savedState.timeInFuture;
+        mCurrentWidth = savedState.width;
+
+        if (mDurationLeft > 0) {
+            startAnimation();
+        }
+
+    }
+
+    @Override
+    protected Parcelable onSaveInstanceState() {
+        Parcelable superState =  super.onSaveInstanceState();
+
+        SavedState ss = new SavedState(superState);
+        ss.timeInFuture = mDurationLeft;
+        ss.width = mOverView.getWidth();
+        mMaxWidth = mBaseButton.getWidth();
+        ss.maxWidth = mMaxWidth;
+
+        return ss;
+    }
+
+    public class SavedState extends BaseSavedState {
+
+        long timeInFuture;
+        int width;
+        int maxWidth;
+
+        public SavedState(Parcel source) {
+            super(source);
+
+            timeInFuture = source.readLong();
+            width = source.readInt();
+            mMaxWidth = source.readInt();
+        }
+
+        SavedState(Parcelable superState) {
+            super(superState);
+        }
+
+        @Override
+        public void writeToParcel(Parcel out, int flags) {
+            super.writeToParcel(out, flags);
+            out.writeLong(timeInFuture);
+            out.writeInt(width);
+            out.writeInt(maxWidth);
         }
     }
 }
