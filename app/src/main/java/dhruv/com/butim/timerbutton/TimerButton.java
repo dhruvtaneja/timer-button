@@ -20,6 +20,7 @@ import dhruv.com.butim.R;
 public class TimerButton extends RelativeLayout implements Animation.AnimationListener, View.OnClickListener {
 
     private static final long INTERVAL = 500L;
+
     private Button mBaseButton;
     private View mOverView;
     private Button mTransparentButton;
@@ -30,10 +31,10 @@ public class TimerButton extends RelativeLayout implements Animation.AnimationLi
     private long mDuration = 10000L;
     private long mDurationLeft;
     private int mDynamicStringId = 0;
-    private String mOnAnimationCompleteText = "";
-    private String mBeforeAnimationText = "";
     private boolean mIsReset;
     private boolean mIsAnimating;
+    private String mOnAnimationCompleteText = "";
+    private String mBeforeAnimationText = "";
 
     public TimerButton(Context context) {
         super(context);
