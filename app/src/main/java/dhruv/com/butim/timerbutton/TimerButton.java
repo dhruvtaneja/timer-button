@@ -33,6 +33,7 @@ public class TimerButton extends RelativeLayout implements Animation.AnimationLi
     private String mOnAnimationCompleteText = "";
     private String mBeforeAnimationText = "";
     private boolean mIsReset;
+    private boolean mIsAnimating;
 
     public TimerButton(Context context) {
         super(context);
@@ -126,6 +127,7 @@ public class TimerButton extends RelativeLayout implements Animation.AnimationLi
     }
 
     public void startAnimation() {
+        mIsAnimating = true;
         setupTimer();
         setupAnimation();
         mOverView.startAnimation(mScaleAnimation);
@@ -169,6 +171,7 @@ public class TimerButton extends RelativeLayout implements Animation.AnimationLi
         }
         mIsReset = false;
         mDurationLeft = mDuration;
+        mIsAnimating = false;
     }
 
     @Override
@@ -219,8 +222,9 @@ public class TimerButton extends RelativeLayout implements Animation.AnimationLi
         SavedState savedState = (SavedState) state;
         super.onRestoreInstanceState(savedState.getSuperState());
         mDurationLeft = savedState.timeInFuture;
+        mIsAnimating = savedState.isAnimating;
 
-        if (mDurationLeft > 0) {
+        if (mIsAnimating) {
             startAnimation();
         }
 
@@ -233,6 +237,7 @@ public class TimerButton extends RelativeLayout implements Animation.AnimationLi
         SavedState ss = new SavedState(superState);
         ss.timeInFuture = mDurationLeft;
         ss.width = mOverView.getWidth();
+        ss.isAnimating = mIsAnimating;
 
         return ss;
     }
@@ -242,12 +247,14 @@ public class TimerButton extends RelativeLayout implements Animation.AnimationLi
         long timeInFuture;
         int width;
         int maxWidth;
+        boolean isAnimating;
 
         public SavedState(Parcel source) {
             super(source);
 
             timeInFuture = source.readLong();
             width = source.readInt();
+            isAnimating = source.readByte() != 0;
         }
 
         SavedState(Parcelable superState) {
@@ -260,6 +267,7 @@ public class TimerButton extends RelativeLayout implements Animation.AnimationLi
             out.writeLong(timeInFuture);
             out.writeInt(width);
             out.writeInt(maxWidth);
+            out.writeByte((byte) (isAnimating ? 1 : 0));
         }
     }
 }
