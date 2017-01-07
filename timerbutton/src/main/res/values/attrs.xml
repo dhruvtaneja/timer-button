@@ -6,6 +6,7 @@
         <attr name="dynamicString" format="reference"/>
         <attr name="animationBackground" format="reference"/>
         <attr name="buttonBackground" format="reference"/>
+        <attr name="textColor" format="reference|color"/>
     </declare-styleable>
 
 </resources>

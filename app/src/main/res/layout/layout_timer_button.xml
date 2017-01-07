@@ -11,7 +11,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:textColor="@color/white"
         android:textSize="14sp"/>
 
     <View
@@ -38,7 +37,6 @@
         android:background="#00000000"
         android:clickable="false"
         android:textAllCaps="true"
-        android:textColor="@color/white"
         android:textSize="14sp"
         android:visibility="gone"
         tools:visibility="visible"/>

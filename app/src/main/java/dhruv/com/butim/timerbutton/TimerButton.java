@@ -2,6 +2,7 @@ package dhruv.com.butim.timerbutton;
 
 
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
 import android.os.CountDownTimer;
 import android.os.Parcel;
@@ -28,6 +29,7 @@ public class TimerButton extends RelativeLayout implements Animation.AnimationLi
 
     private ScaleAnimation mScaleAnimation;
     private ButtonCountDownTimer mTimer;
+    private ColorStateList mTextColor;
 
     private long mDuration = 10000L;
     private long mDurationLeft;
@@ -61,6 +63,7 @@ public class TimerButton extends RelativeLayout implements Animation.AnimationLi
         mDynamicStringId = a.getResourceId(R.styleable.TimerButton_dynamicString, 0);
         mButtonBackgroundId = a.getResourceId(R.styleable.TimerButton_buttonBackground, 0);
         mAnimationBackgroundId = a.getResourceId(R.styleable.TimerButton_animationBackground, 0);
+        mTextColor = a.getColorStateList(R.styleable.TimerButton_textColor);
         a.recycle();
     }
 
@@ -105,6 +108,8 @@ public class TimerButton extends RelativeLayout implements Animation.AnimationLi
         setStaticText(mBeforeAnimationText);
         setButtonBackground(mButtonBackgroundId);
         setAnimationBackground(mAnimationBackgroundId);
+        mBaseButton.setTextColor(mTextColor != null ? mTextColor : ColorStateList.valueOf(0xFF000000));
+        mTransparentButton.setTextColor(mTextColor != null ? mTextColor : ColorStateList.valueOf(0xFF000000));
         mBaseButton.setOnClickListener(this);
     }
 
