@@ -2,6 +2,7 @@ package dhruv.com.butim.timerbutton;
 
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.os.CountDownTimer;
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -43,8 +44,20 @@ public class TimerButton extends RelativeLayout implements Animation.AnimationLi
 
     public TimerButton(Context context, AttributeSet attrs) {
         super(context, attrs);
-
+        parseAttributes(context, attrs);
         init();
+    }
+
+    private void parseAttributes(Context context, AttributeSet attrs) {
+        if (isInEditMode()) {
+            return;
+        }
+
+        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.TimerButton);
+        mOnAnimationCompleteText = a.getString(R.styleable.TimerButton_animationCompleteText);
+        mBeforeAnimationText = a.getString(R.styleable.TimerButton_defaultText);
+        mDynamicStringId = a.getResourceId(R.styleable.TimerButton_dynamicString, 0);
+        a.recycle();
     }
 
     public TimerButton(Context context, AttributeSet attrs, int defStyleAttr) {
@@ -85,6 +98,7 @@ public class TimerButton extends RelativeLayout implements Animation.AnimationLi
         mOverView = findViewById(R.id.over_view);
         mTransparentButton = (Button) findViewById(R.id.text_button);
 
+        setStaticText(mBeforeAnimationText);
         mBaseButton.setOnClickListener(this);
     }
 
@@ -102,9 +116,6 @@ public class TimerButton extends RelativeLayout implements Animation.AnimationLi
 
     public void setStaticText(String beforeAnimationText) {
         if (beforeAnimationText != null) {
-            if (mBeforeAnimationText.equals(beforeAnimationText)) {
-                return;
-            }
             mBeforeAnimationText = beforeAnimationText;
             mBaseButton.setText(mBeforeAnimationText);
             mTransparentButton.setText(mBeforeAnimationText);

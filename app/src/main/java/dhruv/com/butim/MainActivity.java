@@ -21,9 +21,9 @@ public class MainActivity extends AppCompatActivity {
 
         Button endAnimButton = (Button) findViewById(R.id.end_anim_button);
         mTimerButton = (TimerButton) findViewById(R.id.timer_button);
-        mTimerButton.setStaticText(getString(R.string.send_otp));
-        mTimerButton.setDynamicText(R.string.resend_otp_formatted);
-        mTimerButton.setOnAnimationCompleteText(getString(R.string.resend_otp));
+//        mTimerButton.setStaticText(getString(R.string.send_otp));
+//        mTimerButton.setDynamicText(R.string.resend_otp_formatted);
+//        mTimerButton.setOnAnimationCompleteText(getString(R.string.resend_otp));
         mTimerButton.setButtonBackground(R.drawable.selector_button);
         mTimerButton.setAnimationBackground(R.color.colorPrimaryTrans);
         mTimerButton.setDuration(MILLIS_IN_FUTURE);

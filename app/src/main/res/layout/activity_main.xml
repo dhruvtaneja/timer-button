@@ -2,6 +2,7 @@
 <RelativeLayout
     android:id="@+id/activity_main"
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -14,8 +15,11 @@
     <dhruv.com.butim.timerbutton.TimerButton
         android:id="@+id/timer_button"
         android:layout_width="200dp"
+        android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:layout_height="wrap_content"/>
+        app:defaultText="@string/send_otp"
+        app:dynamicString="@string/resend_otp_formatted"
+        app:animationCompleteText="@string/resend_otp"/>
 
     <Button
         android:id="@+id/end_anim_button"

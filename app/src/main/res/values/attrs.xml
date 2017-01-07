@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="TimerButton">
+        <attr name="animationCompleteText" format="string|reference"/>
+        <attr name="defaultText" format="string|reference"/>
+        <attr name="dynamicString" format="reference"/>
+    </declare-styleable>
+
+</resources>
