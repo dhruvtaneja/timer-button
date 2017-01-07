@@ -2,6 +2,7 @@ package com.dhruv.timerbutton;
 
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.os.CountDownTimer;
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -15,8 +16,8 @@ import android.widget.RelativeLayout;
 
 import java.util.concurrent.TimeUnit;
 
-public class TimerButton extends RelativeLayout implements Animation.AnimationListener,
-        View.OnClickListener {
+
+public class TimerButton extends RelativeLayout implements Animation.AnimationListener, View.OnClickListener {
 
     private static final long INTERVAL = 500L;
 
@@ -29,7 +30,9 @@ public class TimerButton extends RelativeLayout implements Animation.AnimationLi
 
     private long mDuration = 10000L;
     private long mDurationLeft;
-    private int mDynamicStringId = 0;
+    private int mDynamicStringId;
+    private int mButtonBackgroundId;
+    private int mAnimationBackgroundId;
     private boolean mIsReset;
     private boolean mIsAnimating;
     private String mOnAnimationCompleteText = "";
@@ -42,8 +45,22 @@ public class TimerButton extends RelativeLayout implements Animation.AnimationLi
 
     public TimerButton(Context context, AttributeSet attrs) {
         super(context, attrs);
-
+        parseAttributes(context, attrs);
         init();
+    }
+
+    private void parseAttributes(Context context, AttributeSet attrs) {
+        if (isInEditMode()) {
+            return;
+        }
+
+        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.TimerButton);
+        mOnAnimationCompleteText = a.getString(R.styleable.TimerButton_animationCompleteText);
+        mBeforeAnimationText = a.getString(R.styleable.TimerButton_defaultText);
+        mDynamicStringId = a.getResourceId(R.styleable.TimerButton_dynamicString, 0);
+        mButtonBackgroundId = a.getResourceId(R.styleable.TimerButton_buttonBackground, 0);
+        mAnimationBackgroundId = a.getResourceId(R.styleable.TimerButton_animationBackground, 0);
+        a.recycle();
     }
 
     public TimerButton(Context context, AttributeSet attrs, int defStyleAttr) {
@@ -84,6 +101,9 @@ public class TimerButton extends RelativeLayout implements Animation.AnimationLi
         mOverView = findViewById(R.id.over_view);
         mTransparentButton = (Button) findViewById(R.id.text_button);
 
+        setStaticText(mBeforeAnimationText);
+        setButtonBackground(mButtonBackgroundId);
+        setAnimationBackground(mAnimationBackgroundId);
         mBaseButton.setOnClickListener(this);
     }
 
@@ -101,9 +121,6 @@ public class TimerButton extends RelativeLayout implements Animation.AnimationLi
 
     public void setStaticText(String beforeAnimationText) {
         if (beforeAnimationText != null) {
-            if (mBeforeAnimationText.equals(beforeAnimationText)) {
-                return;
-            }
             mBeforeAnimationText = beforeAnimationText;
             mBaseButton.setText(mBeforeAnimationText);
             mTransparentButton.setText(mBeforeAnimationText);
@@ -119,11 +136,17 @@ public class TimerButton extends RelativeLayout implements Animation.AnimationLi
     }
 
     public void setButtonBackground(int id) {
-        mBaseButton.setBackgroundResource(id);
+        if (id != 0) {
+            mButtonBackgroundId = id;
+            mBaseButton.setBackgroundResource(id);
+        }
     }
 
     public void setAnimationBackground(int id) {
-        mOverView.setBackgroundResource(id);
+        if (id != 0) {
+            mAnimationBackgroundId = id;
+            mOverView.setBackgroundResource(id);
+        }
     }
 
     public void startAnimation() {
