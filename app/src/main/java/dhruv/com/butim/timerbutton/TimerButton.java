@@ -226,6 +226,8 @@ public class TimerButton extends RelativeLayout implements Animation.AnimationLi
 
         if (mIsAnimating) {
             startAnimation();
+        } else {
+            mBaseButton.setText(savedState.buttonText);
         }
 
     }
@@ -238,6 +240,7 @@ public class TimerButton extends RelativeLayout implements Animation.AnimationLi
         ss.timeInFuture = mDurationLeft;
         ss.width = mOverView.getWidth();
         ss.isAnimating = mIsAnimating;
+        ss.buttonText = mBaseButton.getText().toString();
 
         return ss;
     }
@@ -248,14 +251,7 @@ public class TimerButton extends RelativeLayout implements Animation.AnimationLi
         int width;
         int maxWidth;
         boolean isAnimating;
-
-        public SavedState(Parcel source) {
-            super(source);
-
-            timeInFuture = source.readLong();
-            width = source.readInt();
-            isAnimating = source.readByte() != 0;
-        }
+        String buttonText;
 
         SavedState(Parcelable superState) {
             super(superState);
@@ -268,6 +264,7 @@ public class TimerButton extends RelativeLayout implements Animation.AnimationLi
             out.writeInt(width);
             out.writeInt(maxWidth);
             out.writeByte((byte) (isAnimating ? 1 : 0));
+            out.writeString(buttonText);
         }
     }
 }
