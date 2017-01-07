@@ -31,7 +31,9 @@ public class TimerButton extends RelativeLayout implements Animation.AnimationLi
 
     private long mDuration = 10000L;
     private long mDurationLeft;
-    private int mDynamicStringId = 0;
+    private int mDynamicStringId;
+    private int mButtonBackgroundId;
+    private int mAnimationBackgroundId;
     private boolean mIsReset;
     private boolean mIsAnimating;
     private String mOnAnimationCompleteText = "";
@@ -57,6 +59,8 @@ public class TimerButton extends RelativeLayout implements Animation.AnimationLi
         mOnAnimationCompleteText = a.getString(R.styleable.TimerButton_animationCompleteText);
         mBeforeAnimationText = a.getString(R.styleable.TimerButton_defaultText);
         mDynamicStringId = a.getResourceId(R.styleable.TimerButton_dynamicString, 0);
+        mButtonBackgroundId = a.getResourceId(R.styleable.TimerButton_buttonBackground, 0);
+        mAnimationBackgroundId = a.getResourceId(R.styleable.TimerButton_animationBackground, 0);
         a.recycle();
     }
 
@@ -99,6 +103,8 @@ public class TimerButton extends RelativeLayout implements Animation.AnimationLi
         mTransparentButton = (Button) findViewById(R.id.text_button);
 
         setStaticText(mBeforeAnimationText);
+        setButtonBackground(mButtonBackgroundId);
+        setAnimationBackground(mAnimationBackgroundId);
         mBaseButton.setOnClickListener(this);
     }
 
@@ -131,11 +137,17 @@ public class TimerButton extends RelativeLayout implements Animation.AnimationLi
     }
 
     public void setButtonBackground(int id) {
-        mBaseButton.setBackground(getResources().getDrawable(id, null));
+        if (id != 0) {
+            mButtonBackgroundId = id;
+            mBaseButton.setBackground(getResources().getDrawable(id, null));
+        }
     }
 
     public void setAnimationBackground(int id) {
-        mOverView.setBackground(getResources().getDrawable(id, null));
+        if (id != 0) {
+            mAnimationBackgroundId = id;
+            mOverView.setBackground(getResources().getDrawable(id, null));
+        }
     }
 
     public void startAnimation() {

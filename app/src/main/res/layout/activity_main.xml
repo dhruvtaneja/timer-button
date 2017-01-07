@@ -19,7 +19,9 @@
         android:layout_centerInParent="true"
         app:defaultText="@string/send_otp"
         app:dynamicString="@string/resend_otp_formatted"
-        app:animationCompleteText="@string/resend_otp"/>
+        app:animationCompleteText="@string/resend_otp"
+        app:animationBackground="@color/colorPrimaryTrans"
+        app:buttonBackground="@drawable/selector_button"/>
 
     <Button
         android:id="@+id/end_anim_button"

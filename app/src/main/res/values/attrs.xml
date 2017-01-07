@@ -4,6 +4,8 @@
         <attr name="animationCompleteText" format="string|reference"/>
         <attr name="defaultText" format="string|reference"/>
         <attr name="dynamicString" format="reference"/>
+        <attr name="animationBackground" format="reference"/>
+        <attr name="buttonBackground" format="reference"/>
     </declare-styleable>
 
 </resources>
