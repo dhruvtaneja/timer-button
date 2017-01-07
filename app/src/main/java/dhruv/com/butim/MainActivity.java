@@ -9,7 +9,7 @@ import dhruv.com.butim.timerbutton.TimerButton;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static final long MILLIS_IN_FUTURE = 10000L;
+    private static final long MILLIS_IN_FUTURE = 12000L;
 
     private TimerButton mTimerButton;
 
