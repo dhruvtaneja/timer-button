@@ -119,7 +119,7 @@ public class TimerButton extends RelativeLayout implements Animation.AnimationLi
         mDynamicStringId = id;
     }
 
-    public void setButtonSelector(int id) {
+    public void setButtonBackground(int id) {
         mBaseButton.setBackground(getResources().getDrawable(id, null));
     }
 
