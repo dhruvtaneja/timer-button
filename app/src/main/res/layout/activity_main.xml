@@ -12,7 +12,7 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="dhruv.com.butim.MainActivity">
 
-    <dhruv.com.butim.timerbutton.TimerButton
+    <com.dhruv.timerbutton.TimerButton
         android:id="@+id/timer_button"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
