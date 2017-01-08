@@ -104,7 +104,7 @@ public class TimerButton extends RelativeLayout implements Animation.AnimationLi
         mOverView = findViewById(R.id.over_view);
         mTransparentButton = (Button) findViewById(R.id.text_button);
 
-        setStaticText(mBeforeAnimationText);
+        setBeforeAnimationText(mBeforeAnimationText);
         setButtonBackground(mButtonBackgroundId);
         setAnimationBackground(mAnimationBackgroundId);
         mBaseButton.setTextColor(mTextColor != null ? mTextColor : ColorStateList.valueOf(0xFF000000));
@@ -124,7 +124,7 @@ public class TimerButton extends RelativeLayout implements Animation.AnimationLi
         mDurationLeft = mDuration = duration;
     }
 
-    public void setStaticText(String beforeAnimationText) {
+    public void setBeforeAnimationText(String beforeAnimationText) {
         if (beforeAnimationText != null) {
             mBeforeAnimationText = beforeAnimationText;
             mBaseButton.setText(mBeforeAnimationText);
