@@ -4,6 +4,7 @@ package com.dhruv.timerbutton;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
+import android.graphics.Typeface;
 import android.os.CountDownTimer;
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -110,6 +111,22 @@ public class TimerButton extends RelativeLayout implements Animation.AnimationLi
         mBaseButton.setTextColor(mTextColor != null ? mTextColor : ColorStateList.valueOf(0xFF000000));
         mTransparentButton.setTextColor(mTextColor != null ? mTextColor : ColorStateList.valueOf(0xFF000000));
         mBaseButton.setOnClickListener(this);
+
+        mBaseButton.setTypeface(getTypeface());
+        mTransparentButton.setTypeface(getTypeface());
+    }
+
+    /**
+     * Called to set the typeface of the button during the constructor call. Override this method
+     * to set your own font
+     *
+     * @return Typeface
+     */
+    public Typeface getTypeface() {
+        if (mBaseButton != null) {
+            return mBaseButton.getTypeface();
+        }
+        return null;
     }
 
     private void setupAnimation() {
