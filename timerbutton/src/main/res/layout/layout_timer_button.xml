@@ -1,17 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merge
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_centerInParent="true">
+    android:layout_height="wrap_content">
 
     <Button
         android:id="@+id/timer_base_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:textSize="14sp"/>
+        android:textSize="44sp"/>
 
     <View
         android:id="@+id/over_view"
@@ -30,15 +29,17 @@
         android:id="@+id/text_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/timer_base_button"
         android:layout_alignEnd="@id/timer_base_button"
         android:layout_alignLeft="@id/timer_base_button"
         android:layout_alignRight="@id/timer_base_button"
         android:layout_alignStart="@id/timer_base_button"
+        android:layout_alignTop="@id/timer_base_button"
         android:background="#00000000"
         android:clickable="false"
         android:textAllCaps="true"
-        android:textSize="14sp"
+        android:textSize="44sp"
         android:visibility="gone"
         tools:visibility="visible"/>
 
-</merge>
+</RelativeLayout>
