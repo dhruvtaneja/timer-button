@@ -9,6 +9,7 @@ import android.os.CountDownTimer;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.AttributeSet;
+import android.util.TypedValue;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.LinearInterpolator;
@@ -22,6 +23,7 @@ import java.util.concurrent.TimeUnit;
 public class TimerButton extends RelativeLayout implements Animation.AnimationListener, View.OnClickListener {
 
     private static final long INTERVAL = 500L;
+    private static final int DEFAULT_TEXT_SIZE = 14;
 
     private Button mBaseButton;
     private View mOverView;
@@ -36,6 +38,7 @@ public class TimerButton extends RelativeLayout implements Animation.AnimationLi
     private int mDynamicStringId;
     private int mButtonBackgroundId;
     private int mAnimationBackgroundId;
+    private int mTextSize;
     private boolean mIsReset;
     private boolean mIsAnimating;
     private String mOnAnimationCompleteText = "";
@@ -64,6 +67,7 @@ public class TimerButton extends RelativeLayout implements Animation.AnimationLi
         mButtonBackgroundId = a.getResourceId(R.styleable.TimerButton_buttonBackground, 0);
         mAnimationBackgroundId = a.getResourceId(R.styleable.TimerButton_animationBackground, 0);
         mTextColor = a.getColorStateList(R.styleable.TimerButton_textColor);
+        mTextSize = a.getDimensionPixelSize(R.styleable.TimerButton_textSize, 0);
         a.recycle();
     }
 
@@ -114,6 +118,14 @@ public class TimerButton extends RelativeLayout implements Animation.AnimationLi
 
         mBaseButton.setTypeface(getTypeface());
         mTransparentButton.setTypeface(getTypeface());
+
+        if (mTextSize > 0) {
+            mBaseButton.setTextSize(TypedValue.COMPLEX_UNIT_PX, mTextSize);
+            mTransparentButton.setTextSize(TypedValue.COMPLEX_UNIT_PX, mTextSize);
+        } else {
+            mBaseButton.setTextSize(TypedValue.COMPLEX_UNIT_SP, DEFAULT_TEXT_SIZE);
+            mTransparentButton.setTextSize(TypedValue.COMPLEX_UNIT_SP, DEFAULT_TEXT_SIZE);
+        }
     }
 
     /**
