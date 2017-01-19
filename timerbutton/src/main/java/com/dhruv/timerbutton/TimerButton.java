@@ -117,8 +117,11 @@ public class TimerButton extends RelativeLayout implements Animation.AnimationLi
         mTransparentButton.setTextColor(mTextColor != null ? mTextColor : ColorStateList.valueOf(0xFF000000));
         mBaseButton.setOnClickListener(this);
 
-        mBaseButton.setTypeface(getTypeface());
-        mTransparentButton.setTypeface(getTypeface());
+        Typeface typeface = getTypeface();
+        if (typeface != null) {
+            mBaseButton.setTypeface(typeface);
+            mTransparentButton.setTypeface(typeface);
+        }
 
         if (mTextSize > 0) {
             mBaseButton.setTextSize(TypedValue.COMPLEX_UNIT_PX, mTextSize);
