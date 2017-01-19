@@ -55,6 +55,12 @@ public class TimerButton extends RelativeLayout implements Animation.AnimationLi
         init();
     }
 
+    public TimerButton(Context context, AttributeSet attrs, int defStyleAttr) {
+        super(context, attrs, defStyleAttr);
+        parseAttributes(context, attrs);
+        init();
+    }
+
     private void parseAttributes(Context context, AttributeSet attrs) {
         if (isInEditMode()) {
             return;
@@ -69,11 +75,6 @@ public class TimerButton extends RelativeLayout implements Animation.AnimationLi
         mTextColor = a.getColorStateList(R.styleable.TimerButton_textColor);
         mTextSize = a.getDimensionPixelSize(R.styleable.TimerButton_textSize, 0);
         a.recycle();
-    }
-
-    public TimerButton(Context context, AttributeSet attrs, int defStyleAttr) {
-        super(context, attrs, defStyleAttr);
-        init();
     }
 
     @Override
