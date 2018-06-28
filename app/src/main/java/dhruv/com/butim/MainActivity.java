@@ -19,8 +19,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
 
-        Button endAnimButton = (Button) findViewById(R.id.end_anim_button);
-        mTimerButton = (TimerButton) findViewById(R.id.timer_button);
+        Button endAnimButton = findViewById(R.id.end_anim_button);
+        mTimerButton = findViewById(R.id.timer_button);
 //        mTimerButton.setBeforeAnimationText(getString(R.string.send_otp));
 //        mTimerButton.setDynamicText(R.string.resend_otp_formatted);
 //        mTimerButton.setOnAnimationCompleteText(getString(R.string.resend_otp));
