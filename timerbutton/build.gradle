@@ -1,14 +1,44 @@
 apply plugin: 'com.android.library'
+apply plugin: 'com.github.dcendents.android-maven'
+apply plugin: 'com.jfrog.bintray'
+
+ext {
+
+    //For bintray and jcenter distribution
+    bintrayRepo = 'maven'
+    bintrayName = 'timer-button'
+
+    publishedGroupId = 'com.dt'
+    libraryName = 'TimerButton'
+    artifact = 'timerbutton' //This artifact name should be the same with library module name
+    organization = ''
+
+    libraryDescription = 'A button with a timer on it'
+
+    siteUrl = 'https://github.com/dhruvtaneja/timer-button'
+    gitUrl = 'https://github.com/dhruvtaneja/timer-button.git'
+
+    libraryVersion = '0.0.1'
+
+    developerId = 'dhruvtaneja'
+    developerName = 'Dhruv Taneja'
+    developerEmail = 'dhruvtaneja1209@gmail.com'
+
+    licenseName = 'The Apache Software License, Version 2.0'
+    licenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+    allLicenses = ["Apache-2.0"]
+
+}
 
 android {
-    compileSdkVersion 24
+    compileSdkVersion 27
     buildToolsVersion '27.0.3'
 
     defaultConfig {
         minSdkVersion 14
-        targetSdkVersion 24
+        targetSdkVersion 27
         versionCode 1
-        versionName "1.0"
+        versionName "1.0.0"
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
