@@ -24,6 +24,9 @@ import android.widget.RelativeLayout;
 import java.util.concurrent.TimeUnit;
 
 
+/**
+ * A button that has a countdown timer running over it.
+ */
 public class TimerButton extends RelativeLayout implements Animation.AnimationListener, View.OnClickListener {
 
     private static final long INTERVAL = 500L;
