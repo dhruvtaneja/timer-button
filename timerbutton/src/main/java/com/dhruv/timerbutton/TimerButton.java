@@ -106,9 +106,9 @@ public class TimerButton extends RelativeLayout implements Animation.AnimationLi
     private void init() {
         inflate(getContext(), R.layout.layout_timer_button, this);
 
-        mBaseButton = (Button) findViewById(R.id.timer_base_button);
+        mBaseButton = findViewById(R.id.timer_base_button);
         mOverView = findViewById(R.id.over_view);
-        mTransparentButton = (Button) findViewById(R.id.text_button);
+        mTransparentButton = findViewById(R.id.text_button);
 
         setBeforeAnimationText(mBeforeAnimationText);
         setButtonBackground(mButtonBackgroundId);
@@ -153,10 +153,20 @@ public class TimerButton extends RelativeLayout implements Animation.AnimationLi
         mScaleAnimation.setAnimationListener(this);
     }
 
+    /**
+     * Set the duration for which the animation will run and the button will be disabled
+     *
+     * @param duration duration of animation
+     */
     public void setDuration(long duration) {
         mDurationLeft = mDuration = duration;
     }
 
+    /**
+     * Set the text to display before the animations will run
+     *
+     * @param beforeAnimationText text to display before animation
+     */
     public void setBeforeAnimationText(String beforeAnimationText) {
         if (beforeAnimationText != null) {
             mBeforeAnimationText = beforeAnimationText;
@@ -165,14 +175,34 @@ public class TimerButton extends RelativeLayout implements Animation.AnimationLi
         }
     }
 
+    /**
+     * Set the text to display after the animation is finished. Set as null if
+     * it is supposed to be same as set in {@link #setBeforeAnimationText(String)}
+     *
+     * @param onAnimationCompleteText text to display after animation is finished
+     */
     public void setOnAnimationCompleteText(String onAnimationCompleteText) {
+        if (mOnAnimationCompleteText == null || mOnAnimationCompleteText.isEmpty()) {
+            mOnAnimationCompleteText = mBeforeAnimationText;
+        }
         mOnAnimationCompleteText = onAnimationCompleteText;
     }
 
+    /**
+     * Set the string resource id to be displayed during the animation.
+     * The string resource should be a formatted string that accepts one integer
+     *
+     * @param id string resource id
+     */
     public void setDynamicText(int id) {
         mDynamicStringId = id;
     }
 
+    /**
+     * Set the background of the button
+     *
+     * @param id background resource id
+     */
     public void setButtonBackground(int id) {
         if (id != 0) {
             mButtonBackgroundId = id;
@@ -180,6 +210,11 @@ public class TimerButton extends RelativeLayout implements Animation.AnimationLi
         }
     }
 
+    /**
+     * Set the background for the overlaying animation
+     *
+     * @param id animation resource id
+     */
     public void setAnimationBackground(int id) {
         if (id != 0) {
             mAnimationBackgroundId = id;
@@ -187,6 +222,9 @@ public class TimerButton extends RelativeLayout implements Animation.AnimationLi
         }
     }
 
+    /**
+     * Start the button animation
+     */
     public void startAnimation() {
         mIsAnimating = true;
         setupTimer();
@@ -199,11 +237,18 @@ public class TimerButton extends RelativeLayout implements Animation.AnimationLi
         mTimer = new ButtonCountDownTimer(mDurationLeft == 0 ? mDuration : mDurationLeft, INTERVAL);
     }
 
+    /**
+     * Reset button animation
+     */
     public void reset() {
         end();
         mIsReset = true;
     }
 
+    /**
+     * Forcefully end the animation. Note that this is different from
+     * {@link #reset()} which resets the animation to the start state
+     */
     public void end() {
         if (!mScaleAnimation.hasEnded()) {
             mOverView.clearAnimation();
@@ -306,7 +351,7 @@ public class TimerButton extends RelativeLayout implements Animation.AnimationLi
         return ss;
     }
 
-    public class SavedState extends BaseSavedState {
+    class SavedState extends BaseSavedState {
 
         long timeInFuture;
         int width;
