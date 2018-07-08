@@ -274,6 +274,15 @@ public class TimerButton extends RelativeLayout implements Animation.AnimationLi
     }
 
     @Override
+    protected void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        mAnimationListener = null;
+        if (mTimer != null) {
+            mTimer.onFinish();
+        }
+    }
+
+    @Override
     public void onAnimationEnd(Animation animation) {
         mOverView.setVisibility(View.GONE);
         mTransparentButton.setVisibility(GONE);
