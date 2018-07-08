@@ -8,6 +8,10 @@ import android.graphics.Typeface;
 import android.os.CountDownTimer;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.DrawableRes;
+import android.support.annotation.IdRes;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.View;
@@ -20,6 +24,9 @@ import android.widget.RelativeLayout;
 import java.util.concurrent.TimeUnit;
 
 
+/**
+ * A button that has a countdown timer running over it.
+ */
 public class TimerButton extends RelativeLayout implements Animation.AnimationListener, View.OnClickListener {
 
     private static final long INTERVAL = 500L;
@@ -32,6 +39,7 @@ public class TimerButton extends RelativeLayout implements Animation.AnimationLi
     private ScaleAnimation mScaleAnimation;
     private ButtonCountDownTimer mTimer;
     private ColorStateList mTextColor;
+    private ButtonAnimationListener mAnimationListener;
 
     private long mDuration = 10000L;
     private long mDurationLeft;
@@ -106,9 +114,9 @@ public class TimerButton extends RelativeLayout implements Animation.AnimationLi
     private void init() {
         inflate(getContext(), R.layout.layout_timer_button, this);
 
-        mBaseButton = (Button) findViewById(R.id.timer_base_button);
+        mBaseButton = findViewById(R.id.timer_base_button);
         mOverView = findViewById(R.id.over_view);
-        mTransparentButton = (Button) findViewById(R.id.text_button);
+        mTransparentButton = findViewById(R.id.text_button);
 
         setBeforeAnimationText(mBeforeAnimationText);
         setButtonBackground(mButtonBackgroundId);
@@ -153,40 +161,76 @@ public class TimerButton extends RelativeLayout implements Animation.AnimationLi
         mScaleAnimation.setAnimationListener(this);
     }
 
+    /**
+     * Set the duration for which the animation will run and the button will be disabled
+     *
+     * @param duration duration of animation
+     */
     public void setDuration(long duration) {
         mDurationLeft = mDuration = duration;
     }
 
-    public void setBeforeAnimationText(String beforeAnimationText) {
-        if (beforeAnimationText != null) {
-            mBeforeAnimationText = beforeAnimationText;
-            mBaseButton.setText(mBeforeAnimationText);
-            mTransparentButton.setText(mBeforeAnimationText);
-        }
+    /**
+     * Set the text to display before the animations will run
+     *
+     * @param beforeAnimationText text to display before animation
+     */
+    public void setBeforeAnimationText(@NonNull String beforeAnimationText) {
+        mBeforeAnimationText = beforeAnimationText;
+        mBaseButton.setText(mBeforeAnimationText);
+        mTransparentButton.setText(mBeforeAnimationText);
     }
 
-    public void setOnAnimationCompleteText(String onAnimationCompleteText) {
+    /**
+     * Set the text to display after the animation is finished. Set as null if
+     * it is supposed to be same as set in {@link #setBeforeAnimationText(String)}
+     *
+     * @param onAnimationCompleteText text to display after animation is finished
+     */
+    public void setOnAnimationCompleteText(@Nullable String onAnimationCompleteText) {
+        if (mOnAnimationCompleteText == null || mOnAnimationCompleteText.isEmpty()) {
+            mOnAnimationCompleteText = mBeforeAnimationText;
+        }
         mOnAnimationCompleteText = onAnimationCompleteText;
     }
 
-    public void setDynamicText(int id) {
+    /**
+     * Set the string resource id to be displayed during the animation.
+     * The string resource should be a formatted string that accepts one integer
+     *
+     * @param id string resource id
+     */
+    public void setDynamicText(@IdRes int id) {
         mDynamicStringId = id;
     }
 
-    public void setButtonBackground(int id) {
+    /**
+     * Set the background of the button
+     *
+     * @param id background resource id
+     */
+    public void setButtonBackground(@DrawableRes int id) {
         if (id != 0) {
             mButtonBackgroundId = id;
             mBaseButton.setBackgroundResource(id);
         }
     }
 
-    public void setAnimationBackground(int id) {
+    /**
+     * Set the background for the overlaying animation
+     *
+     * @param id animation resource id
+     */
+    public void setAnimationBackground(@DrawableRes int id) {
         if (id != 0) {
             mAnimationBackgroundId = id;
             mOverView.setBackgroundResource(id);
         }
     }
 
+    /**
+     * Start the button animation
+     */
     public void startAnimation() {
         mIsAnimating = true;
         setupTimer();
@@ -199,11 +243,18 @@ public class TimerButton extends RelativeLayout implements Animation.AnimationLi
         mTimer = new ButtonCountDownTimer(mDurationLeft == 0 ? mDuration : mDurationLeft, INTERVAL);
     }
 
+    /**
+     * Reset button animation
+     */
     public void reset() {
-        end();
         mIsReset = true;
+        end();
     }
 
+    /**
+     * Forcefully end the animation. Note that this is different from
+     * {@link #reset()} which resets the animation to the start state
+     */
     public void end() {
         if (!mScaleAnimation.hasEnded()) {
             mOverView.clearAnimation();
@@ -213,11 +264,31 @@ public class TimerButton extends RelativeLayout implements Animation.AnimationLi
         mDurationLeft = mDuration;
     }
 
+    /**
+     * Set the {@link ButtonAnimationListener} object to receive callbacks
+     * @param listener {@link ButtonAnimationListener} object
+     */
+    public void setButtonAnimationListener(@Nullable ButtonAnimationListener listener) {
+        mAnimationListener = listener;
+    }
+
     @Override
     public void onAnimationStart(Animation animation) {
         mOverView.setVisibility(View.VISIBLE);
         mTransparentButton.setVisibility(View.VISIBLE);
         mBaseButton.setEnabled(false);
+        if (mAnimationListener != null) {
+            mAnimationListener.onAnimationStart();
+        }
+    }
+
+    @Override
+    protected void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        mAnimationListener = null;
+        if (mTimer != null) {
+            mTimer.onFinish();
+        }
     }
 
     @Override
@@ -268,7 +339,13 @@ public class TimerButton extends RelativeLayout implements Animation.AnimationLi
 
         @Override
         public void onFinish() {
-
+            if (mAnimationListener != null) {
+                if (mIsReset) {
+                    mAnimationListener.onAnimationReset();
+                } else {
+                    mAnimationListener.onAnimationEnd();
+                }
+            }
         }
     }
 
@@ -306,7 +383,7 @@ public class TimerButton extends RelativeLayout implements Animation.AnimationLi
         return ss;
     }
 
-    public class SavedState extends BaseSavedState {
+    class SavedState extends BaseSavedState {
 
         long timeInFuture;
         int width;
