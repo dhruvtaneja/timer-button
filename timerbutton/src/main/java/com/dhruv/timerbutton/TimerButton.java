@@ -32,6 +32,7 @@ public class TimerButton extends RelativeLayout implements Animation.AnimationLi
     private ScaleAnimation mScaleAnimation;
     private ButtonCountDownTimer mTimer;
     private ColorStateList mTextColor;
+    private ButtonAnimationListener mAnimationListener;
 
     private long mDuration = 10000L;
     private long mDurationLeft;
@@ -241,8 +242,8 @@ public class TimerButton extends RelativeLayout implements Animation.AnimationLi
      * Reset button animation
      */
     public void reset() {
-        end();
         mIsReset = true;
+        end();
     }
 
     /**
@@ -258,11 +259,18 @@ public class TimerButton extends RelativeLayout implements Animation.AnimationLi
         mDurationLeft = mDuration;
     }
 
+    public void setButtonAnimationListener(ButtonAnimationListener listener) {
+        mAnimationListener = listener;
+    }
+
     @Override
     public void onAnimationStart(Animation animation) {
         mOverView.setVisibility(View.VISIBLE);
         mTransparentButton.setVisibility(View.VISIBLE);
         mBaseButton.setEnabled(false);
+        if (mAnimationListener != null) {
+            mAnimationListener.onAnimationStart();
+        }
     }
 
     @Override
@@ -313,7 +321,13 @@ public class TimerButton extends RelativeLayout implements Animation.AnimationLi
 
         @Override
         public void onFinish() {
-
+            if (mAnimationListener != null) {
+                if (mIsReset) {
+                    mAnimationListener.onAnimationReset();
+                } else {
+                    mAnimationListener.onAnimationEnd();
+                }
+            }
         }
     }
 
