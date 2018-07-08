@@ -259,6 +259,10 @@ public class TimerButton extends RelativeLayout implements Animation.AnimationLi
         mDurationLeft = mDuration;
     }
 
+    /**
+     * Set the {@link ButtonAnimationListener} object to receive callbacks
+     * @param listener {@link ButtonAnimationListener} object
+     */
     public void setButtonAnimationListener(ButtonAnimationListener listener) {
         mAnimationListener = listener;
     }
