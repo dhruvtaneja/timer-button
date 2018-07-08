@@ -8,6 +8,10 @@ import android.graphics.Typeface;
 import android.os.CountDownTimer;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.DrawableRes;
+import android.support.annotation.IdRes;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.View;
@@ -168,12 +172,10 @@ public class TimerButton extends RelativeLayout implements Animation.AnimationLi
      *
      * @param beforeAnimationText text to display before animation
      */
-    public void setBeforeAnimationText(String beforeAnimationText) {
-        if (beforeAnimationText != null) {
-            mBeforeAnimationText = beforeAnimationText;
-            mBaseButton.setText(mBeforeAnimationText);
-            mTransparentButton.setText(mBeforeAnimationText);
-        }
+    public void setBeforeAnimationText(@NonNull String beforeAnimationText) {
+        mBeforeAnimationText = beforeAnimationText;
+        mBaseButton.setText(mBeforeAnimationText);
+        mTransparentButton.setText(mBeforeAnimationText);
     }
 
     /**
@@ -182,7 +184,7 @@ public class TimerButton extends RelativeLayout implements Animation.AnimationLi
      *
      * @param onAnimationCompleteText text to display after animation is finished
      */
-    public void setOnAnimationCompleteText(String onAnimationCompleteText) {
+    public void setOnAnimationCompleteText(@Nullable String onAnimationCompleteText) {
         if (mOnAnimationCompleteText == null || mOnAnimationCompleteText.isEmpty()) {
             mOnAnimationCompleteText = mBeforeAnimationText;
         }
@@ -195,7 +197,7 @@ public class TimerButton extends RelativeLayout implements Animation.AnimationLi
      *
      * @param id string resource id
      */
-    public void setDynamicText(int id) {
+    public void setDynamicText(@IdRes int id) {
         mDynamicStringId = id;
     }
 
@@ -204,7 +206,7 @@ public class TimerButton extends RelativeLayout implements Animation.AnimationLi
      *
      * @param id background resource id
      */
-    public void setButtonBackground(int id) {
+    public void setButtonBackground(@DrawableRes int id) {
         if (id != 0) {
             mButtonBackgroundId = id;
             mBaseButton.setBackgroundResource(id);
@@ -216,7 +218,7 @@ public class TimerButton extends RelativeLayout implements Animation.AnimationLi
      *
      * @param id animation resource id
      */
-    public void setAnimationBackground(int id) {
+    public void setAnimationBackground(@DrawableRes int id) {
         if (id != 0) {
             mAnimationBackgroundId = id;
             mOverView.setBackgroundResource(id);
@@ -263,7 +265,7 @@ public class TimerButton extends RelativeLayout implements Animation.AnimationLi
      * Set the {@link ButtonAnimationListener} object to receive callbacks
      * @param listener {@link ButtonAnimationListener} object
      */
-    public void setButtonAnimationListener(ButtonAnimationListener listener) {
+    public void setButtonAnimationListener(@Nullable ButtonAnimationListener listener) {
         mAnimationListener = listener;
     }
 
