@@ -4,5 +4,4 @@
     <string name="resend_otp_formatted">Resend OTP (%1$d)</string>
     <string name="resend_otp">Resend OTP</string>
     <string name="stop">Stop</string>
-    <string name="reset">Reset</string>
 </resources>
