@@ -11,31 +11,19 @@ public class MainActivity extends AppCompatActivity {
 
     private static final long MILLIS_IN_FUTURE = 6000L;
 
-    private TimerButton mTimerButton;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
+        TimerButton mTimerButton;
         Button endAnimButton = findViewById(R.id.end_anim_button);
         mTimerButton = findViewById(R.id.timer_button);
         mTimerButton.setDuration(MILLIS_IN_FUTURE);
 
-        endAnimButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mTimerButton.end();
-            }
-        });
+        endAnimButton.setOnClickListener(v -> mTimerButton.end());
 
         Button resetAnimButton = findViewById(R.id.reset_anim_button);
-        resetAnimButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mTimerButton.reset();
-            }
-        });
+        resetAnimButton.setOnClickListener(v -> mTimerButton.reset());
     }
 }
