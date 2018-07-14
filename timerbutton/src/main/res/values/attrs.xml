@@ -1,12 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <declare-styleable name="TimerButton">
+        <!--text to be displayed after animation is complete-->
         <attr name="animationCompleteText" format="string|reference"/>
+        <!--text to be displayed in pre-animation state-->
         <attr name="defaultText" format="string|reference"/>
+        <!--text to be displayed during animation-->
         <attr name="dynamicString" format="reference"/>
+        <!--the overlay that animates over the button. Can be a drawable, a gradient, etc-->
         <attr name="animationBackground" format="reference"/>
+        <!--the background of the button-->
         <attr name="buttonBackground" format="reference"/>
+        <!--color of the text-->
         <attr name="textColor" format="reference|color"/>
+        <!--size of the text-->
         <attr name="textSize" format="reference|dimension"/>
     </declare-styleable>
 
