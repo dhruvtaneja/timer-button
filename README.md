@@ -3,9 +3,8 @@
 Timer button is a countdown enabled button which can be used to disable user interactions while showing
 a timer on top of it.
 
-_insert image here_
 
-_insert gif here_
+![](https://dl2.pushbulletusercontent.com/FC3WGsT0Z3zWRJVyV7rjdehhQ1SLzEQM/Screen%20Shot%202018-07-14%20at%2019.17.05.png)
 
 
 ### Gradle
