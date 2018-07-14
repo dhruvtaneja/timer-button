@@ -2,9 +2,9 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:state_enabled="false"
-        android:drawable="@color/colorPrimaryTrans"/>
+        android:drawable="@color/colorAccentTrans"/>
 
     <item
         android:state_enabled="true"
-        android:drawable="@color/colorPrimary"/>
+        android:drawable="@color/colorAccent"/>
 </selector>

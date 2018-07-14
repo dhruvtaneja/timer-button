@@ -9,30 +9,21 @@ import com.dhruv.timerbutton.TimerButton;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static final long MILLIS_IN_FUTURE = 12000L;
-
-    private TimerButton mTimerButton;
+    private static final long MILLIS_IN_FUTURE = 6000L;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
+        TimerButton mTimerButton;
         Button endAnimButton = findViewById(R.id.end_anim_button);
         mTimerButton = findViewById(R.id.timer_button);
-//        mTimerButton.setBeforeAnimationText(getString(R.string.send_otp));
-//        mTimerButton.setDynamicText(R.string.resend_otp_formatted);
-//        mTimerButton.setOnAnimationCompleteText(getString(R.string.resend_otp));
-//        mTimerButton.setButtonBackground(R.drawable.selector_button);
-//        mTimerButton.setAnimationBackground(R.color.colorPrimaryTrans);
         mTimerButton.setDuration(MILLIS_IN_FUTURE);
 
-        endAnimButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mTimerButton.reset();
-            }
-        });
+        endAnimButton.setOnClickListener(v -> mTimerButton.end());
+
+        Button resetAnimButton = findViewById(R.id.reset_anim_button);
+        resetAnimButton.setOnClickListener(v -> mTimerButton.reset());
     }
 }
