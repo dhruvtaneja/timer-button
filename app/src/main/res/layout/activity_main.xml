@@ -17,30 +17,21 @@
         android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        app:animationBackground="@color/colorAccentTrans"
+        app:animationBackground="@color/colorPrimaryTrans"
         app:animationCompleteText="@string/resend_otp"
         app:buttonBackground="@drawable/selector_button"
         app:defaultText="@string/send_otp"
         app:dynamicString="@string/resend_otp_formatted"
-        app:textColor="@color/colorPrimaryDark"/>
+        app:textColor="@color/white"/>
 
     <Button
         android:id="@+id/end_anim_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
         android:background="@drawable/selector_button"
         android:text="@string/stop"
-        android:textColor="@color/colorPrimaryDark"/>
-
-    <Button
-        android:id="@+id/reset_anim_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        android:background="@drawable/selector_button"
-        android:text="@string/reset"
-        android:textColor="@color/colorPrimaryDark"/>
+        android:textColor="@color/white"/>
 
 </RelativeLayout>
