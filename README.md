@@ -71,7 +71,7 @@ Now in your java code, start, stop or reset the animation with something like th
 
 ```java
 TimerButton timerButton = findViewById(R.id.timer_button);
-timerButton.setDuration(MILLIS_IN_FUTURE);
+timerButton.setDuration(6000L);
 
 //  Start the animation
 timerButton.start();
@@ -82,3 +82,5 @@ timerButton.stop();
 //  Reset the animation
 timerButton.reset();
 ```
+
+**Issues and pull requests are most welcome**
