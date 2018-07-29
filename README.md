@@ -1,5 +1,7 @@
 # Timer Button
 
+[![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-timer--button-brightgreen.svg?style=flat)](https://android-arsenal.com/details/1/7065)
+
 Timer button is a countdown enabled button which can be used to disable user interactions while showing
 a timer on top of it.
 
