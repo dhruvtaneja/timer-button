@@ -12,6 +12,7 @@ import android.support.annotation.DrawableRes;
 import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.content.res.ResourcesCompat;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.View;
@@ -51,6 +52,7 @@ public class TimerButton extends RelativeLayout implements Animation.AnimationLi
     private boolean mIsAnimating;
     private String mOnAnimationCompleteText = "";
     private String mBeforeAnimationText = "";
+    private Typeface mTextFont;
 
     public TimerButton(Context context) {
         super(context);
@@ -82,6 +84,10 @@ public class TimerButton extends RelativeLayout implements Animation.AnimationLi
         mAnimationBackgroundId = a.getResourceId(R.styleable.TimerButton_animationBackground, 0);
         mTextColor = a.getColorStateList(R.styleable.TimerButton_buttonTextColor);
         mTextSize = a.getDimensionPixelSize(R.styleable.TimerButton_buttonTextSize, 0);
+        if (a.hasValue(R.styleable.TimerButton_buttonTextFont)) {
+            int fontId = a.getResourceId(R.styleable.TimerButton_buttonTextFont, -1);
+            mTextFont = ResourcesCompat.getFont(context, fontId);
+        }
         a.recycle();
     }
 
@@ -117,6 +123,9 @@ public class TimerButton extends RelativeLayout implements Animation.AnimationLi
         mBaseButton = findViewById(R.id.timer_base_button);
         mOverView = findViewById(R.id.over_view);
         mTransparentButton = findViewById(R.id.text_button);
+        if (mTextFont != null) {
+            mBaseButton.setTypeface(mTextFont);
+        }
 
         setBeforeAnimationText(mBeforeAnimationText);
         setButtonBackground(mButtonBackgroundId);
