@@ -6,8 +6,9 @@
         <attr name="dynamicString" format="reference"/>
         <attr name="animationBackground" format="reference"/>
         <attr name="buttonBackground" format="reference"/>
-        <attr name="textColor" format="reference|color"/>
-        <attr name="textSize" format="reference|dimension"/>
+        <attr name="buttonTextColor" format="reference|color"/>
+        <attr name="buttonTextSize" format="reference|dimension"/>
+        <attr name="buttonTextFont" format="reference"/>
     </declare-styleable>
 
 </resources>
