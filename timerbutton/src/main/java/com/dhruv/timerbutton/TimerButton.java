@@ -80,8 +80,8 @@ public class TimerButton extends RelativeLayout implements Animation.AnimationLi
         mDynamicStringId = a.getResourceId(R.styleable.TimerButton_dynamicString, 0);
         mButtonBackgroundId = a.getResourceId(R.styleable.TimerButton_buttonBackground, 0);
         mAnimationBackgroundId = a.getResourceId(R.styleable.TimerButton_animationBackground, 0);
-        mTextColor = a.getColorStateList(R.styleable.TimerButton_textColor);
-        mTextSize = a.getDimensionPixelSize(R.styleable.TimerButton_textSize, 0);
+        mTextColor = a.getColorStateList(R.styleable.TimerButton_buttonTextColor);
+        mTextSize = a.getDimensionPixelSize(R.styleable.TimerButton_buttonTextSize, 0);
         a.recycle();
     }
 
