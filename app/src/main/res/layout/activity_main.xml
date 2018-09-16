@@ -22,7 +22,8 @@
         app:buttonBackground="@drawable/selector_button"
         app:defaultText="@string/send_otp"
         app:dynamicString="@string/resend_otp_formatted"
-        app:textColor="@color/white"/>
+        app:buttonTextFont="@font/noto_light"
+        app:buttonTextColor="@color/white"/>
 
     <Button
         android:id="@+id/end_anim_button"
@@ -32,6 +33,7 @@
         android:layout_centerHorizontal="true"
         android:background="@drawable/selector_button"
         android:text="@string/stop"
+        android:fontFamily="@font/noto_light"
         android:textColor="@color/white"/>
 
 </RelativeLayout>
